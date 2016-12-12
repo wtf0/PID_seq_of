@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "butPres.h"
+#include "sequence.h"
 
 class ofApp : public ofBaseApp{
 
@@ -22,8 +23,8 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-        vector <vector<float>> inputSeq;
         vector <butPres> pressesLog;
+        vector <vector <butPres>> tmpLogs;
         vector <butPres> allButs;
         vector <int> seqCounter;
         vector <int> inputCounter;
@@ -34,5 +35,5 @@ class ofApp : public ofBaseApp{
     
         int numInputs;
         bool recording;
-		
+        string tmpString;
 };

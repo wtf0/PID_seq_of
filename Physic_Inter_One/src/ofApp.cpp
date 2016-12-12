@@ -30,7 +30,7 @@ void ofApp::update(){
             if(inputs[i] == false){
                 inputCounter[i]++;
                 allButs[i].setEndTime(ofGetElapsedTimef());
-                cout<<"button logged yo, it stayed on for "+ofToString(allButs[i].getInterval())+" it was button: "+ofToString(allButs[i].getInputNumber());
+                pressesLog.push_back(allButs[i]);
             }
         }
     }
@@ -45,6 +45,29 @@ void ofApp::update(){
                 tmpBut.setStartTime(ofGetElapsedTimef());
                 allButs[i] = tmpBut;
             }
+        }
+    }
+    
+    //look for sequence in the inputs:
+    if(recording == true){
+        for(int i = 0; i < pressesLog.size(); i++){
+            
+            for(int j = i+3; j < pressesLog.size(); j++){
+                if(pressesLog[i].getInputNumber() == pressesLog[j].getInputNumber()){
+                    cout << "lol";
+                    vector <butPres> tmpVec;
+                    for(int h = i; h < j+1; h++){
+                        tmpVec.push_back(pressesLog[h]);
+                    }/*
+                    if(pressesLog[j].getInputNumber() == pressesLog[j+1].getInputNumber()){
+                        tmpVec.push_back(pressesLog[j+1]);
+                    }*/
+                    tmpLogs.push_back(tmpVec);
+                    pressesLog.clear();
+                }
+                
+            }
+            
         }
     }
     
@@ -75,6 +98,18 @@ void ofApp::draw(){
     for(int h = 0; h < inputCounter.size(); h++){
         ofDrawBitmapString(ofToString(inputCounter[h]), 600, 70 + 20*h);
     }
+    for(int i = 0; i < tmpLogs.size(); i++){
+        string tmpStr;
+        for(int j = 0; j < tmpLogs[i].size(); j++){
+            tmpStr += ", "+ofToString(tmpLogs[i][j].getInputNumber());
+        }
+        ofDrawBitmapString(tmpStr, 50, 400 + 20*i);
+    }
+    for(int i = 0; i < pressesLog.size(); i++){
+        tmpString += ofToString(pressesLog[i].getInputNumber()) + ", ";
+    }
+    ofDrawBitmapString(tmpString, 300, 400);
+    tmpString.clear();
 
 }
 
