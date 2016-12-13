@@ -4,6 +4,8 @@
 void ofApp::setup(){
     
     numInputs = 16;
+    minLength = 5;
+    newSeq = false;
     
     inputs.resize(numInputs);
     prevInputs.resize(numInputs);
@@ -48,30 +50,69 @@ void ofApp::update(){
         }
     }
     
+    
+    //look for recurring sequences in the input string that are at least "minLength" long
+    for(int i = 0; i < pressesLog.size(); i++){
+        for(int j = 0; j < pressesLog.size(); j++){
+            if(j != i){
+                if(pressesLog[i].getInputNumber() == pressesLog[j].getInputNumber()){
+                    vector <butPres> tmpLog;
+                    cout << "checking now: ";
+                    int counter = 0;
+                    if(j + minLength < pressesLog.size()){
+                        for(int h = 0; h < (pressesLog.size() - j); h++){
+                            if(pressesLog[j+h].getInputNumber() == pressesLog[i+h].getInputNumber()){
+                                tmpLog.push_back(pressesLog[j+h]);
+                                counter++;
+                            }else{
+                                break;
+                            }
+                        }
+                        if(counter < minLength){
+                            tmpLog.clear();
+                        }else{
+                            tmpLogs.push_back(tmpLog);
+                            newSeq = true;
+                            pressesLog.clear();
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /*
     //look for sequence in the inputs:
     if(recording == true){
         for(int i = 0; i < pressesLog.size(); i++){
-            
+            pressesLogConst.push_back(pressesLog[i]);
             for(int j = i+3; j < pressesLog.size(); j++){
                 if(pressesLog[i].getInputNumber() == pressesLog[j].getInputNumber()){
                     cout << "lol";
                     vector <butPres> tmpVec;
                     for(int h = i; h < j+1; h++){
                         tmpVec.push_back(pressesLog[h]);
-                    }/*
+                    }
                     if(pressesLog[j].getInputNumber() == pressesLog[j+1].getInputNumber()){
                         tmpVec.push_back(pressesLog[j+1]);
-                    }*/
+                    }
                     tmpLogs.push_back(tmpVec);
                     pressesLog.clear();
                 }
-                
             }
-            
         }
     }
-    
+    */
     //sync previnputs
+    
+    if(newSeq == true){
+        
+        //compare the latest sequence to all the ones already in the vector;
+        
+        newSeq = false;
+    }
+    
+    
     prevInputs = inputs;
 }
 

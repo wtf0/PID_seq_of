@@ -24,6 +24,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
         vector <butPres> pressesLog;
+        vector <butPres> pressesLogConst;
         vector <vector <butPres>> tmpLogs;
         vector <butPres> allButs;
         vector <int> seqCounter;
@@ -33,7 +34,10 @@ class ofApp : public ofBaseApp{
         vector <bool> inputs;
         vector <bool> prevInputs;
     
+        bool newSeq;
+    
         int numInputs;
         bool recording;
         string tmpString;
+        int minLength;
 };
